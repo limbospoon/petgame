@@ -72,8 +72,8 @@ func hungry():
 	var _increase_delay = hunger_stats["HungerIncreaseTime"]
 	
 	#check if hunger is less then max hunger
-	if _current_hunger < 0:
-		_current_hunger -= _hunger_increase #increase hunger
+	if _current_hunger < hunger_stats["MaxHunger"]:
+		_current_hunger += _hunger_increase #increase hunger
 		hunger_stats["CurrentHunger"] = _current_hunger #update current hunger in dict
 		on_hunger_changed.emit() #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again

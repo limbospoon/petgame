@@ -28,3 +28,4 @@ offset_bottom = -243.0
 [connection signal="mouse_clicked" from="Camera2D" to="Dog" method="_on_camera_2d_mouse_clicked"]
 [connection signal="on_health_changed" from="Dog" to="Camera2D" method="_on_dog_on_health_changed"]
 [connection signal="on_health_changed" from="Dog" to="HealthLabel" method="_on_dog_on_health_changed"]
+[connection signal="on_hunger_changed" from="Dog" to="Hunger" method="_on_dog_on_hunger_changed"]
