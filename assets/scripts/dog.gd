@@ -9,6 +9,12 @@ var speed := 3:
 	get:
 		return speed
 
+enum EDog_Hunger_State {
+	NORMAl,
+	STARVING
+}
+var dog_hunger_state: EDog_Hunger_State
+
 var dog_stats = {
 	"health_stats": {
 		"MaxHealth": 100,
@@ -18,7 +24,8 @@ var dog_stats = {
 		"MaxHunger": 100,
 		"CurrentHunger": 0,
 		"HungerIncreaseTime": 0.8,
-		"HungerIncreaseAmount": 20
+		"HungerIncreaseAmount": 20,
+		"HealthDamage": 2
 	},
 }
 
@@ -28,6 +35,9 @@ var is_moving: bool = false
 
 func _ready():
 	hungry()
+
+func _process(delta):
+	pass
 
 func set_destination(pos: Vector2):
 	destination = pos
@@ -65,23 +75,39 @@ func hungry():
 	
 	var hunger_stats = dog_stats["hunger_stats"]
 	var _current_hunger = hunger_stats["CurrentHunger"]
+	var _max_hunger = hunger_stats["MaxHunger"]
 	var _hunger_increase = hunger_stats["HungerIncreaseAmount"]
 	var _increase_delay = hunger_stats["HungerIncreaseTime"]
 	
 	#check if hunger is less then max hunger
-	if _current_hunger < hunger_stats["MaxHunger"]:
+	if _current_hunger < _max_hunger:
 		_current_hunger += _hunger_increase #increase hunger
 		dog_stats["hunger_stats"]["CurrentHunger"] = _current_hunger #update current hunger in dict
 		on_hunger_changed.emit() #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again
 		hungry()
-	else:
-		dog_stats["hunger_stats"]["CurrentHunger"] = hunger_stats["MaxHunger"]
-		on_hunger_changed.emit()
+	elif _current_hunger >= _max_hunger:
+		dog_stats["hunger_stats"]["CurrentHunger"] = _max_hunger #et CurrentHunger to MaxHunger
+		on_hunger_changed.emit() #update ui
+		dog_hunger_state = EDog_Hunger_State.STARVING #set state to starving TODO: make use of the state
+		starving()
 
-func straving():
-	pass
+func starving():
 	
+	var health_damage = dog_stats["hunger_stats"]["HealthDamage"]
+	var damage_delay = dog_stats["hunger_stats"]["HungerIncreaseTime"]
+	var max_hunger = dog_stats["hunger_stats"]["MaxHunger"]
+	
+	#deal health damage as long as hunger is Max
+	if get_current_hunger() >= max_hunger:
+		dog_stats["health_stats"]["CurrentHealth"] -= health_damage #decrease health
+		on_health_changed.emit()
+		await get_tree().create_timer(damage_delay).timeout #delay for next damage tick
+		starving()
+	else:
+		dog_hunger_state = EDog_Hunger_State.NORMAl #Not starving so set state back
+		hungry()
+		
 func get_current_hunger() -> float:
 	return dog_stats["hunger_stats"]["CurrentHunger"]
 	
