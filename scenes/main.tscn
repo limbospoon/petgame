@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cejyhxg3ai8y7"]
+[gd_scene load_steps=6 format=3 uid="uid://cejyhxg3ai8y7"]
 
 [ext_resource type="Script" path="res://assets/scripts/mouse_movement.gd" id="1_jh0kq"]
 [ext_resource type="PackedScene" uid="uid://c4nyeq8h12cdp" path="res://scenes/dog.tscn" id="1_r3u64"]
 [ext_resource type="PackedScene" uid="uid://inob5xnb5h1k" path="res://scenes/health.tscn" id="3_v2h11"]
 [ext_resource type="PackedScene" uid="uid://ccicwe4w326b0" path="res://scenes/hunger.tscn" id="4_hqjn6"]
+[ext_resource type="PackedScene" uid="uid://ry1djt1klelf" path="res://scenes/meat.tscn" id="5_nojm0"]
 
 [node name="Main" type="Node2D"]
 
@@ -23,6 +24,9 @@ offset_left = -556.0
 offset_top = -266.0
 offset_right = -516.0
 offset_bottom = -243.0
+
+[node name="Meat" parent="." instance=ExtResource("5_nojm0")]
+position = Vector2(-237, -98)
 
 [connection signal="mouse_clicked" from="Camera2D" to="Camera2D" method="_on_mouse_clicked"]
 [connection signal="mouse_clicked" from="Camera2D" to="Dog" method="_on_camera_2d_mouse_clicked"]

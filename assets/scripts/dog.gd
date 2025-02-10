@@ -112,3 +112,7 @@ func get_current_hunger() -> float:
 	
 func get_current_health() -> int:
 	return dog_stats["health_stats"]["CurrentHealth"]
+
+func restore_hunger(amount: int) -> void:
+	dog_stats["hunger_stats"]["CurrentHunger"] -= amount
+	on_hunger_changed.emit()
