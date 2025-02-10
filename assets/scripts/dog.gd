@@ -9,26 +9,22 @@ var speed := 3:
 	get:
 		return speed
 
-var health := 100:
-	set(value):
-		health = clamp(value,0,100)
-		on_health_changed.emit()
-	get:
-		return health
-
-var hunger_stats = {
+var dog_stats = {
+	"health_stats": {
+		"MaxHealth": 100,
+		"CurrentHealth": 100
+	},
+	"hunger_stats": {
 		"MaxHunger": 100,
 		"CurrentHunger": 0,
-		"HungerIncreaseTime": 8.0,
-		"HungerIncreaseAmount": 0.3
+		"HungerIncreaseTime": 0.8,
+		"HungerIncreaseAmount": 20
+	},
 }
 
 var destination: Vector2
 var is_moving: bool = false
 
-var _hunger_stats:
-	get:
-		return hunger_stats
 
 func _ready():
 	hungry()
@@ -67,6 +63,7 @@ func _on_camera_2d_mouse_clicked():
 
 func hungry():
 	
+	var hunger_stats = dog_stats["hunger_stats"]
 	var _current_hunger = hunger_stats["CurrentHunger"]
 	var _hunger_increase = hunger_stats["HungerIncreaseAmount"]
 	var _increase_delay = hunger_stats["HungerIncreaseTime"]
@@ -74,10 +71,19 @@ func hungry():
 	#check if hunger is less then max hunger
 	if _current_hunger < hunger_stats["MaxHunger"]:
 		_current_hunger += _hunger_increase #increase hunger
-		hunger_stats["CurrentHunger"] = _current_hunger #update current hunger in dict
+		dog_stats["hunger_stats"]["CurrentHunger"] = _current_hunger #update current hunger in dict
 		on_hunger_changed.emit() #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again
 		hungry()
 	else:
-		hunger_stats["CurrentHunger"] = hunger_stats["MaxHunger"]
+		dog_stats["hunger_stats"]["CurrentHunger"] = hunger_stats["MaxHunger"]
 		on_hunger_changed.emit()
+
+func straving():
+	pass
+	
+func get_current_hunger() -> float:
+	return dog_stats["hunger_stats"]["CurrentHunger"]
+	
+func get_current_health() -> int:
+	return dog_stats["health_stats"]["CurrentHealth"]
