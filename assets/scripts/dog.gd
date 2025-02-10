@@ -32,7 +32,6 @@ var dog_stats = {
 var destination: Vector2
 var is_moving: bool = false
 
-
 func _ready():
 	hungry()
 
