@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4nyeq8h12cdp"]
+[gd_scene load_steps=15 format=3 uid="uid://c4nyeq8h12cdp"]
 
 [ext_resource type="Texture2D" uid="uid://bgbbmykgffeo8" path="res://assets/sprites/Dog.png" id="1_1j4h3"]
 [ext_resource type="Script" path="res://assets/scripts/dog.gd" id="1_4y54w"]
@@ -19,6 +19,30 @@ region = Rect2(180, 0, 90, 58)
 atlas = ExtResource("1_1j4h3")
 region = Rect2(270, 0, 90, 58)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_siu1v"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(0, 58, 90, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4hto"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(90, 58, 90, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krsjy"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(180, 58, 90, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2a7sg"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(270, 58, 90, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dl0el"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(360, 58, 90, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_711hr"]
+atlas = ExtResource("1_1j4h3")
+region = Rect2(450, 58, 90, 58)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_yxym1"]
 animations = [{
 "frames": [{
@@ -37,6 +61,29 @@ animations = [{
 "loop": true,
 "name": &"idle-bark",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_siu1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4hto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krsjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2a7sg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl0el")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_711hr")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6oq2"]
@@ -50,9 +97,9 @@ texture_filter = 1
 texture_repeat = 1
 position = Vector2(1, -30)
 sprite_frames = SubResource("SpriteFrames_yxym1")
-animation = &"idle-bark"
+animation = &"walking"
 autoplay = "idle-bark"
-frame_progress = 0.687296
+frame_progress = 0.00697108
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -20.5)

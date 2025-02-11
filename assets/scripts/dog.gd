@@ -3,6 +3,8 @@ extends CharacterBody2D
 signal on_health_changed
 signal on_hunger_changed
 
+@onready var _animated_sprite = $AnimatedSprite2D #get the AnimateSprite2D on the dog
+
 var speed := 3:
 	set(value):
 		speed = clamp(value,1,6)
@@ -45,14 +47,24 @@ func move_to_position(threshold: float = 10) -> bool:
 	
 	var dist = (destination - position).length()
 	var direction = (destination - position).normalized()
+	
+	#check if target destination is to the left or right
+	var dot = (direction.x * Vector2.RIGHT.x) + (direction.y * Vector2.RIGHT.y)
+	
+	if dot < 0:
+		_animated_sprite.flip_h = false
+	else:
+		_animated_sprite.flip_h = true
 		
 	if dist > threshold: #keep moving until we have reached our goal
+		_animated_sprite.play("walking")
 		is_moving = true
 		position += direction * speed
 		await get_tree().create_timer(get_process_delta_time()).timeout
 		move_to_position()
 	elif dist < threshold: #stop moving when we reached our goal
 		is_moving = false
+		_animated_sprite.play("idle-bark")
 		return true
 	
 	return false
