@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 signal on_health_changed
 signal on_hunger_changed
+signal on_death
 
 @onready var _animated_sprite = $AnimatedSprite2D #get the AnimateSprite2D on the dog
 
@@ -16,6 +17,12 @@ enum EDog_Hunger_State {
 	STARVING
 }
 var dog_hunger_state: EDog_Hunger_State
+
+enum EDog_State {
+	ALIVE,
+	DEAD
+}
+var dog_state: EDog_State = EDog_State.ALIVE
 
 var dog_stats = {
 	"health_stats": {
@@ -60,6 +67,10 @@ func move_to_position(threshold: float = 10) -> bool:
 		_animated_sprite.play("walking")
 		is_moving = true
 		position += direction * speed
+		
+		if dog_state == EDog_State.DEAD:
+			return false
+		
 		await get_tree().create_timer(get_process_delta_time()).timeout
 		move_to_position()
 	elif dist < threshold: #stop moving when we reached our goal
@@ -71,6 +82,10 @@ func move_to_position(threshold: float = 10) -> bool:
 
 #Called when mouse is released
 func _on_camera_2d_mouse_clicked():
+	
+	if dog_state == EDog_State.DEAD:
+		is_moving = false
+		return
 	
 	var mouse_pos = get_global_mouse_position()
 	destination = mouse_pos #Set destination to mouse pos
@@ -113,6 +128,12 @@ func starving():
 	if get_current_hunger() >= max_hunger:
 		dog_stats["health_stats"]["CurrentHealth"] -= health_damage #decrease health
 		on_health_changed.emit()
+		
+		if dog_stats["health_stats"]["CurrentHealth"] <= 0:
+			dog_state = EDog_State.DEAD
+			on_death.emit()
+			return
+		
 		await get_tree().create_timer(damage_delay).timeout #delay for next damage tick
 		starving()
 	else:
