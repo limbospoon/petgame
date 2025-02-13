@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://vkn8147maaus"]
+
+[node name="GameOverMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TryAgainButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 350.0
+offset_top = -68.0
+offset_right = 470.0
+offset_bottom = -23.0
+grow_vertical = 2
+text = "Try Again"
+icon_alignment = 1
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -452.0
+offset_top = -68.0
+offset_right = -332.0
+offset_bottom = -23.0
+grow_horizontal = 0
+grow_vertical = 2
+keep_pressed_outside = true
+text = "End"

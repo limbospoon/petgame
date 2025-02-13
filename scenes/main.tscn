@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://cejyhxg3ai8y7"]
+[gd_scene load_steps=9 format=3 uid="uid://cejyhxg3ai8y7"]
 
 [ext_resource type="Script" path="res://assets/scripts/main.gd" id="1_586o1"]
 [ext_resource type="Script" path="res://assets/scripts/mouse_movement.gd" id="1_jh0kq"]
 [ext_resource type="PackedScene" uid="uid://c4nyeq8h12cdp" path="res://scenes/dog.tscn" id="1_r3u64"]
+[ext_resource type="PackedScene" uid="uid://vkn8147maaus" path="res://scenes/game_over_menu.tscn" id="2_lmvol"]
 [ext_resource type="PackedScene" uid="uid://inob5xnb5h1k" path="res://scenes/health.tscn" id="3_v2h11"]
 [ext_resource type="PackedScene" uid="uid://ccicwe4w326b0" path="res://scenes/hunger.tscn" id="4_hqjn6"]
 [ext_resource type="PackedScene" uid="uid://ry1djt1klelf" path="res://scenes/meat.tscn" id="5_nojm0"]
+[ext_resource type="Script" path="res://assets/scripts/game_over_menu.gd" id="6_equ7s"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_586o1")
@@ -15,23 +17,39 @@ script = ExtResource("1_jh0kq")
 
 [node name="Dog" parent="." instance=ExtResource("1_r3u64")]
 
-[node name="HealthLabel" parent="." instance=ExtResource("3_v2h11")]
+[node name="Meat" parent="." instance=ExtResource("5_nojm0")]
+position = Vector2(-237, -98)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameOverMenu" parent="Control" instance=ExtResource("2_lmvol")]
+layout_mode = 1
+script = ExtResource("6_equ7s")
+
+[node name="HealthLabel" parent="Control" instance=ExtResource("3_v2h11")]
+auto_translate_mode = 2
 offset_left = -553.0
 offset_top = -307.0
 offset_right = -513.0
 offset_bottom = -284.0
 
-[node name="Hunger" parent="." instance=ExtResource("4_hqjn6")]
+[node name="Hunger" parent="Control" instance=ExtResource("4_hqjn6")]
+auto_translate_mode = 2
 offset_left = -556.0
 offset_top = -266.0
 offset_right = -516.0
 offset_bottom = -243.0
 
-[node name="Meat" parent="." instance=ExtResource("5_nojm0")]
-position = Vector2(-237, -98)
-
+[connection signal="on_game_state_changed" from="." to="Control/GameOverMenu" method="_on_main_on_game_state_changed"]
 [connection signal="mouse_clicked" from="Camera2D" to="Camera2D" method="_on_mouse_clicked"]
 [connection signal="mouse_clicked" from="Camera2D" to="Dog" method="_on_camera_2d_mouse_clicked"]
 [connection signal="on_death" from="Dog" to="." method="_on_dog_on_death"]
-[connection signal="on_health_changed" from="Dog" to="HealthLabel" method="_on_dog_on_health_changed"]
-[connection signal="on_hunger_changed" from="Dog" to="Hunger" method="_on_dog_on_hunger_changed"]
+[connection signal="on_health_changed" from="Dog" to="Control/HealthLabel" method="_on_dog_on_health_changed"]
+[connection signal="on_hunger_changed" from="Dog" to="Control/Hunger" method="_on_dog_on_hunger_changed"]
+[connection signal="button_up" from="Control/GameOverMenu/TryAgainButton" to="." method="_on_try_again_button_button_up"]
+
+[editable path="Control/GameOverMenu"]
