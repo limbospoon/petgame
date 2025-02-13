@@ -32,9 +32,9 @@ var dog_stats = {
 	"hunger_stats": {
 		"MaxHunger": 100,
 		"CurrentHunger": 0,
-		"HungerIncreaseTime": 0.8,
+		"HungerIncreaseTime": 0.3,
 		"HungerIncreaseAmount": 20,
-		"HealthDamage": 10
+		"HealthDamage": 30
 	},
 }
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://drredqw6q0tyh"]
+[gd_scene load_steps=8 format=3 uid="uid://drredqw6q0tyh"]
 
 [ext_resource type="PackedScene" uid="uid://c4nyeq8h12cdp" path="res://scenes/dog.tscn" id="1_bxcic"]
+[ext_resource type="Script" path="res://assets/scripts/house_scene.gd" id="1_d5fc0"]
 [ext_resource type="Script" path="res://assets/scripts/mouse_movement.gd" id="1_mrr0x"]
 [ext_resource type="Script" path="res://assets/scripts/game_manager.gd" id="1_rkgcv"]
 [ext_resource type="PackedScene" uid="uid://vkn8147maaus" path="res://scenes/game_over_menu.tscn" id="2_ct7vw"]
@@ -8,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://ccicwe4w326b0" path="res://scenes/hunger.tscn" id="4_cp6sn"]
 
 [node name="HouseScene" type="Node2D"]
+script = ExtResource("1_d5fc0")
+
+[node name="LevelManager" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_rkgcv")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -25,6 +30,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GameOverMenu" parent="UI" instance=ExtResource("2_ct7vw")]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 581.0
 offset_top = 244.0
@@ -47,11 +53,12 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Dog" parent="." instance=ExtResource("1_bxcic")]
+unique_name_in_owner = true
 position = Vector2(582, 318)
 
-[connection signal="on_game_state_changed" from="." to="UI/GameOverMenu" method="_on_house_scene_on_game_state_changed"]
+[connection signal="on_game_state_changed" from="LevelManager" to="UI/GameOverMenu" method="_on_level_manager_on_game_state_changed"]
 [connection signal="mouse_clicked" from="Camera2D" to="Dog" method="_on_camera_2d_mouse_clicked"]
-[connection signal="on_death" from="Dog" to="." method="_on_dog_on_death"]
+[connection signal="on_death" from="Dog" to="LevelManager" method="_on_dog_on_death"]
 [connection signal="on_health_changed" from="Dog" to="UI/VBoxContainer/HealthLabel" method="_on_dog_on_health_changed"]
 [connection signal="on_hunger_changed" from="Dog" to="UI/VBoxContainer/Hunger" method="_on_dog_on_hunger_changed"]
 

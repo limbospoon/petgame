@@ -22,9 +22,5 @@ func _on_dog_on_death():
 	on_game_state_changed.emit()
 	print("GameOver") # Replace with function body.
 
-
-func _on_try_again_button_button_up():
-	get_tree().reload_current_scene() # Replace with function body.
-	
 func get_game_state() -> EGame_State:
 	return game_state
