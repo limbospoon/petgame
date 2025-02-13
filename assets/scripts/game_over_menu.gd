@@ -10,10 +10,13 @@ func _ready():
 func _process(delta):
 	pass
 
+func _on_try_again_button_button_up():
+	get_tree().reload_current_scene()
 
-func _on_main_on_game_state_changed():
-	var main_ref = $"../.."
-	var current_state = main_ref.get_game_state()
+
+func _on_house_scene_on_game_state_changed():
+	var game_manager_ref = $"../.."
+	var current_state = game_manager_ref.get_game_state()
 	#check if game is over
-	if current_state == main_ref.EGame_State.GAMEOVER:
+	if current_state == game_manager_ref.EGame_State.GAMEOVER:
 		visible = true

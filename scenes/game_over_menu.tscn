@@ -1,38 +1,44 @@
-[gd_scene format=3 uid="uid://vkn8147maaus"]
+[gd_scene load_steps=2 format=3 uid="uid://vkn8147maaus"]
+
+[ext_resource type="Script" path="res://assets/scripts/game_over_menu.gd" id="1_vewu5"]
 
 [node name="GameOverMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vewu5")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.5
+offset_top = -15.5
+offset_right = 65.5
+offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TryAgainButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 350.0
-offset_top = -68.0
-offset_right = 470.0
-offset_bottom = -23.0
-grow_vertical = 2
+[node name="TryAgainButton" type="Button" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "Try Again"
 icon_alignment = 1
 
-[node name="QuitButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -452.0
-offset_top = -68.0
-offset_right = -332.0
-offset_bottom = -23.0
-grow_horizontal = 0
-grow_vertical = 2
+[node name="QuitButton" type="Button" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
 keep_pressed_outside = true
 text = "End"
+
+[connection signal="button_up" from="HSplitContainer/TryAgainButton" to="." method="_on_try_again_button_button_up"]

@@ -34,7 +34,7 @@ var dog_stats = {
 		"CurrentHunger": 0,
 		"HungerIncreaseTime": 0.8,
 		"HungerIncreaseAmount": 20,
-		"HealthDamage": 2
+		"HealthDamage": 10
 	},
 }
 

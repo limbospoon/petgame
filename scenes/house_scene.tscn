@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://drredqw6q0tyh"]
+
+[ext_resource type="PackedScene" uid="uid://c4nyeq8h12cdp" path="res://scenes/dog.tscn" id="1_bxcic"]
+[ext_resource type="Script" path="res://assets/scripts/mouse_movement.gd" id="1_mrr0x"]
+[ext_resource type="Script" path="res://assets/scripts/game_manager.gd" id="1_rkgcv"]
+[ext_resource type="PackedScene" uid="uid://vkn8147maaus" path="res://scenes/game_over_menu.tscn" id="2_ct7vw"]
+[ext_resource type="PackedScene" uid="uid://inob5xnb5h1k" path="res://scenes/health.tscn" id="3_2yeco"]
+[ext_resource type="PackedScene" uid="uid://ccicwe4w326b0" path="res://scenes/hunger.tscn" id="4_cp6sn"]
+
+[node name="HouseScene" type="Node2D"]
+script = ExtResource("1_rkgcv")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("1_mrr0x")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GameOverMenu" parent="UI" instance=ExtResource("2_ct7vw")]
+layout_mode = 1
+offset_left = 581.0
+offset_top = 244.0
+offset_right = 581.0
+offset_bottom = 244.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 60.0
+
+[node name="HealthLabel" parent="UI/VBoxContainer" instance=ExtResource("3_2yeco")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Hunger" parent="UI/VBoxContainer" instance=ExtResource("4_cp6sn")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Dog" parent="." instance=ExtResource("1_bxcic")]
+position = Vector2(582, 318)
+
+[connection signal="on_game_state_changed" from="." to="UI/GameOverMenu" method="_on_house_scene_on_game_state_changed"]
+[connection signal="mouse_clicked" from="Camera2D" to="Dog" method="_on_camera_2d_mouse_clicked"]
+[connection signal="on_death" from="Dog" to="." method="_on_dog_on_death"]
+[connection signal="on_health_changed" from="Dog" to="UI/VBoxContainer/HealthLabel" method="_on_dog_on_health_changed"]
+[connection signal="on_hunger_changed" from="Dog" to="UI/VBoxContainer/Hunger" method="_on_dog_on_hunger_changed"]
+
+[editable path="UI/GameOverMenu"]
