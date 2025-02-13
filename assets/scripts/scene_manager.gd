@@ -19,12 +19,9 @@ func goto_scene(path):
 
 func load_create_a_dog():
 	print("Loading create-a-dog")
-	
-	
-	get_tree().root.remove_child(current_scene)
-	
 	current_scene.queue_free()
-	await get_tree().create_timer(1).timeout
+	
+	await get_tree().create_timer(0.2).timeout
 	print("House scene unloaded")
 	
 	if not is_instance_valid(current_scene):
@@ -34,7 +31,7 @@ func load_create_a_dog():
 	#get ref to gamerover manager
 	var game_over_manager = current_scene.get_node("%GameOverMenu") 
 	
-	 #bind retry signal to load create-a-dog
+	#bind retry signal to load create-a-dog
 	game_over_manager.on_retry.connect(load_create_a_dog)
 	print("Rebinded retry")
 
