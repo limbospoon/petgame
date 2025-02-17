@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ry1djt1klelf"]
 
-[ext_resource type="Script" path="res://assets/scripts/meat.gd" id="1_ecbhy"]
+[ext_resource type="Script" path="res://assets/scripts/house_scene/meat.gd" id="1_ecbhy"]
 [ext_resource type="Texture2D" uid="uid://bkm5dda6qsppv" path="res://assets/sprites/Items/Cooked Meat.png" id="1_xuw33"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mu81c"]

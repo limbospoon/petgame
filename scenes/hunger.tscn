@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ccicwe4w326b0"]
 
 [ext_resource type="Texture2D" uid="uid://dxvx8qkvmagcl" path="res://assets/sprites/Food.png" id="1_2ltyp"]
-[ext_resource type="Script" path="res://assets/scripts/hunger.gd" id="1_rnlhg"]
+[ext_resource type="Script" path="res://assets/scripts/dog/hunger.gd" id="1_rnlhg"]
 
 [node name="Hunger" type="Label"]
 offset_left = 1.0

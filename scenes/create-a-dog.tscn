@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://ckabig2cy5qbd"]
+[gd_scene load_steps=4 format=3 uid="uid://ckabig2cy5qbd"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_dog_button.gd" id="1_drp55"]
+[ext_resource type="Script" path="res://assets/scripts/Utilities/load_button.gd" id="2_1paoq"]
+[ext_resource type="Script" path="res://assets/scripts/create-a-dog/saver.gd" id="2_m5gcx"]
+
+[node name="Create-a-Dog" type="Node2D"]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -25,15 +29,41 @@ offset_right = 143.0
 offset_bottom = 83.0
 grow_horizontal = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer"]
+custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 
-[node name="DogNameLabel" type="Label" parent="Control/PanelContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DogNameLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Dog Name"
 
-[node name="EnterDogNameBox" type="LineEdit" parent="Control/PanelContainer/HBoxContainer"]
+[node name="EnterDogNameBox" type="LineEdit" parent="Control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter dog name"
 max_length = 12
+
+[node name="CreateDogButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Create"
+script = ExtResource("1_drp55")
+
+[node name="LoadButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Load"
+script = ExtResource("2_1paoq")
+
+[node name="Utilities" type="Node" parent="."]
+
+[node name="Saver" type="Node" parent="Utilities"]
+unique_name_in_owner = true
+script = ExtResource("2_m5gcx")
+
+[connection signal="button_up" from="Control/PanelContainer/VBoxContainer/CreateDogButton" to="Control/PanelContainer/VBoxContainer/CreateDogButton" method="_on_button_up"]
+[connection signal="button_up" from="Control/PanelContainer/VBoxContainer/LoadButton" to="Control/PanelContainer/VBoxContainer/LoadButton" method="_on_button_up"]

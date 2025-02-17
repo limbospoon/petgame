@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://inob5xnb5h1k"]
 
 [ext_resource type="Texture2D" uid="uid://bhkopi1ve5r87" path="res://assets/sprites/heart.png" id="1_f31qd"]
-[ext_resource type="Script" path="res://assets/scripts/health_label.gd" id="1_s66ib"]
+[ext_resource type="Script" path="res://assets/scripts/dog/health_label.gd" id="1_s66ib"]
 
 [node name="HealthLabel" type="Label"]
 offset_left = -15.0
