@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckabig2cy5qbd"]
+[gd_scene load_steps=6 format=3 uid="uid://ckabig2cy5qbd"]
 
 [ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_dog_button.gd" id="1_drp55"]
+[ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_a_dog.gd" id="1_duw5w"]
 [ext_resource type="Script" path="res://assets/scripts/Utilities/load_button.gd" id="2_1paoq"]
 [ext_resource type="Script" path="res://assets/scripts/create-a-dog/saver.gd" id="2_m5gcx"]
+[ext_resource type="Texture2D" uid="uid://c4av7drqh68x8" path="res://assets/sprites/samson-sprite.png" id="2_xfnm2"]
 
 [node name="Create-a-Dog" type="Node2D"]
+script = ExtResource("1_duw5w")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -33,22 +36,50 @@ grow_horizontal = 2
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
+[node name="DogName" type="HBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="DogNameLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="DogNameLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/DogName"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Dog Name"
 
-[node name="EnterDogNameBox" type="LineEdit" parent="Control/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="EnterDogNameBox" type="LineEdit" parent="Control/PanelContainer/VBoxContainer/DogName"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter dog name"
 max_length = 12
 
+[node name="DogPic" type="TextureRect" parent="Control/PanelContainer/VBoxContainer"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_xfnm2")
+
+[node name="BreedSelectionGroup" type="HBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
+layout_direction = 1
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftBreedArrow" type="Button" parent="Control/PanelContainer/VBoxContainer/BreedSelectionGroup"]
+layout_mode = 2
+text = "<"
+
+[node name="Dog Breed" type="Label" parent="Control/PanelContainer/VBoxContainer/BreedSelectionGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test"
+horizontal_alignment = 1
+
+[node name="RightBreedArrow" type="Button" parent="Control/PanelContainer/VBoxContainer/BreedSelectionGroup"]
+layout_mode = 2
+text = ">"
+
 [node name="CreateDogButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
 text = "Create"
@@ -65,5 +96,7 @@ script = ExtResource("2_1paoq")
 unique_name_in_owner = true
 script = ExtResource("2_m5gcx")
 
+[connection signal="button_up" from="Control/PanelContainer/VBoxContainer/BreedSelectionGroup/LeftBreedArrow" to="Utilities/Saver" method="_on_left_breed_arrow_button_up"]
+[connection signal="button_up" from="Control/PanelContainer/VBoxContainer/BreedSelectionGroup/RightBreedArrow" to="Utilities/Saver" method="_on_right_breed_arrow_button_up"]
 [connection signal="button_up" from="Control/PanelContainer/VBoxContainer/CreateDogButton" to="Control/PanelContainer/VBoxContainer/CreateDogButton" method="_on_button_up"]
 [connection signal="button_up" from="Control/PanelContainer/VBoxContainer/LoadButton" to="Control/PanelContainer/VBoxContainer/LoadButton" method="_on_button_up"]

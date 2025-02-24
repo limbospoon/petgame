@@ -1,14 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cejyhxg3ai8y7"]
+[gd_scene load_steps=3 format=3 uid="uid://cejyhxg3ai8y7"]
 
+[ext_resource type="PackedScene" uid="uid://vkn8147maaus" path="res://scenes/game_over_menu.tscn" id="1_38o1o"]
 [ext_resource type="Script" path="res://assets/scripts/Utilities/scene_manager.gd" id="1_mrjdo"]
 
 [node name="Main" type="Node2D"]
+
+[node name="GameOverMenu" parent="." instance=ExtResource("1_38o1o")]
+unique_name_in_owner = true
 
 [node name="SceneManager" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_mrjdo")
 
-[node name="LoadHouseScene" type="Button" parent="."]
+[node name="LoadCreate-a-Dog" type="Button" parent="."]
 unique_name_in_owner = true
 anchors_preset = 3
 anchor_left = 1.0
@@ -21,7 +25,8 @@ offset_right = 604.0
 offset_bottom = 330.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Load House"
+text = "Create Dog"
 
-[connection signal="button_up" from="LoadHouseScene" to="SceneManager" method="_on_load_house_scene_button_up"]
-[connection signal="child_exiting_tree" from="LoadHouseScene" to="SceneManager" method="_on_load_scene_child_exiting_tree"]
+[connection signal="button_up" from="LoadCreate-a-Dog" to="SceneManager" method="_on_load_createa_dog_button_up"]
+[connection signal="button_up" from="LoadCreate-a-Dog" to="SceneManager" method="_on_load_house_scene_button_up"]
+[connection signal="child_exiting_tree" from="LoadCreate-a-Dog" to="SceneManager" method="_on_load_scene_child_exiting_tree"]

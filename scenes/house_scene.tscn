@@ -47,10 +47,12 @@ offset_right = 50.0
 offset_bottom = 60.0
 
 [node name="HealthLabel" parent="UI/VBoxContainer" instance=ExtResource("3_2yeco")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Hunger" parent="UI/VBoxContainer" instance=ExtResource("4_cp6sn")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -83,6 +85,7 @@ position = Vector2(582, 318)
 [node name="Utilities" type="Node" parent="."]
 
 [node name="SaveLoad" type="Node" parent="Utilities"]
+unique_name_in_owner = true
 script = ExtResource("8_mlvkw")
 
 [connection signal="on_game_state_changed" from="LevelManager" to="UI/GameOverMenu" method="_on_level_manager_on_game_state_changed"]

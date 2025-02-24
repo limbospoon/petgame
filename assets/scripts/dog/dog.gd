@@ -42,11 +42,25 @@ var destination: Vector2
 var is_moving: bool = false
 
 func _ready():
+	setup_dog()
 	hungry()
 
 func _process(delta):
 	pass
 
+func setup_dog():
+	var dog_data:DogData = %SaveLoad._load_dog_data()
+	
+	#Setup Health
+	dog_stats["health_stats"]["MaxHealth"] = dog_data.dog_max_health
+	dog_stats["health_stats"]["CurrentHealth"] = dog_data.dog_max_health
+	%HealthLabel.update_health_display(self)
+	
+	#setup hunger
+	dog_stats["hunger_stats"]["MaxHunger"] = dog_data.dog_max_hunger
+	dog_stats["hunger_stats"]["CurrentHunger"] = 0
+	%Hunger.update_hunger_display(self)
+	
 func set_destination(pos: Vector2):
 	destination = pos
 
@@ -109,12 +123,12 @@ func hungry():
 	if _current_hunger < _max_hunger:
 		_current_hunger += _hunger_increase #increase hunger
 		dog_stats["hunger_stats"]["CurrentHunger"] = _current_hunger #update current hunger in dict
-		on_hunger_changed.emit() #broadcast hunger change
+		%Hunger.update_hunger_display(self) #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again
 		hungry()
 	elif _current_hunger >= _max_hunger:
 		dog_stats["hunger_stats"]["CurrentHunger"] = _max_hunger #et CurrentHunger to MaxHunger
-		on_hunger_changed.emit() #update ui
+		%Hunger.update_hunger_display(self) #update ui
 		dog_hunger_state = EDog_Hunger_State.STARVING #set state to starving TODO: make use of the state
 		starving()
 
@@ -127,7 +141,7 @@ func starving():
 	#deal health damage as long as hunger is Max
 	if get_current_hunger() >= max_hunger:
 		dog_stats["health_stats"]["CurrentHealth"] -= health_damage #decrease health
-		on_health_changed.emit()
+		%HealthLabel.update_health_display(self)
 		
 		if dog_stats["health_stats"]["CurrentHealth"] <= 0:
 			dog_state = EDog_State.DEAD

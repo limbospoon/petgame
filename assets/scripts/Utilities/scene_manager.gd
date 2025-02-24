@@ -1,6 +1,9 @@
 extends Node2D
 
+@onready var game_over_menu = %GameOverMenu
+
 var house_scene_path = "res://scenes/house_scene.tscn"
+var create_a_dog_scene_path = "res://scenes/create-a-dog.tscn"
 var current_scene
 
 # Called when the node enters the scene tree for the first time.
@@ -17,6 +20,15 @@ func goto_scene(path):
 	get_tree().root.add_child(scene_to_load)
 	current_scene = scene_to_load
 
+func load_house_scene():
+	
+	current_scene.queue_free()
+	
+	await get_tree().create_timer(0.2).timeout
+	
+	if not is_instance_valid(current_scene):
+		goto_scene(house_scene_path)
+	
 func load_create_a_dog():
 	print("Loading create-a-dog")
 	current_scene.queue_free()
@@ -25,26 +37,17 @@ func load_create_a_dog():
 	print("House scene unloaded")
 	
 	if not is_instance_valid(current_scene):
-		goto_scene(house_scene_path)
-		
-	#TODO: set bindings at more apporiate time
-	#get ref to gamerover manager
-	var game_over_manager = current_scene.get_node("%GameOverMenu") 
+		goto_scene(create_a_dog_scene_path)
 	
-	#bind retry signal to load create-a-dog
-	game_over_manager.on_retry.connect(load_create_a_dog)
-	print("Rebinded retry")
-
-
-func _on_load_house_scene_button_up():
-	#load house scene
-	goto_scene(house_scene_path) 
-	
-	#get ref to gamerover manager
-	var game_over_manager = current_scene.get_node("%GameOverMenu") 
+func _on_load_createa_dog_button_up():
+	#load create-a-dog scene
+	goto_scene(create_a_dog_scene_path) 
 	
 	 #bind retry signal to load create-a-dog
-	game_over_manager.on_retry.connect(load_create_a_dog)
-
-	%LoadHouseScene.hide()
+	game_over_menu.on_retry.connect(load_create_a_dog)
 	
+	#bind create button to load house scene
+	var create_btn:Button = current_scene.get_node("%CreateDogButton")
+	create_btn.button_up.connect(load_house_scene)
+
+	%"LoadCreate-a-Dog".hide()
