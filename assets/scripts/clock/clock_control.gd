@@ -13,9 +13,14 @@ enum EClock_Type {
 	TWENTY_FOUR_HOUR,
 	TWELVE_HOUR
 }
-
 var clock_type:EClock_Type = EClock_Type.TWELVE_HOUR
-var is_morning: bool = true
+
+enum EDay_State{
+	AM,
+	PM
+}
+var day_state:EDay_State = EDay_State.AM
+var day_state_changed: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,22 +53,31 @@ func tick_clock_12():
 	
 	tick_minutes()
 	
-	if current_hour > 11:
-		is_morning = !is_morning
+	if current_hour > 11 and not day_state_changed:
+		change_day_state()
 	
 	if current_hour > 12:
 		current_hour = 1
-		
-		
-	if not is_morning:
-		ampm_Label.text = "pm"
-	else:
-		ampm_Label.text = "am"
+		day_state_changed = false
 	
 	update_labels()
 	await get_tree().create_timer(clock_speed).timeout
 	if current_hour < 100:
 		tick_clock_12()
+	
+	
+func change_day_state():
+	var current_day_state = day_state
+	
+	if current_day_state == EDay_State.AM:
+		day_state = EDay_State.PM
+
+	elif current_day_state == EDay_State.PM:
+		day_state = EDay_State.AM
+	
+	#convert current day state to string
+	ampm_Label.text = str(EDay_State.keys()[day_state]).to_lower()
+	day_state_changed = true
 	
 func update_labels():
 	

@@ -54,7 +54,6 @@ text = "00"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "am"
 
 [node name="ClockControl" type="Node" parent="."]
 script = ExtResource("2_x72ra")

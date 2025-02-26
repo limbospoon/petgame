@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://drredqw6q0tyh"]
+[gd_scene load_steps=9 format=3 uid="uid://drredqw6q0tyh"]
 
 [ext_resource type="PackedScene" uid="uid://c4nyeq8h12cdp" path="res://scenes/dog.tscn" id="1_bxcic"]
 [ext_resource type="Script" path="res://assets/scripts/house_scene/house_scene.gd" id="1_d5fc0"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://assets/scripts/Utilities/game_manager.gd" id="1_rkgcv"]
 [ext_resource type="PackedScene" uid="uid://inob5xnb5h1k" path="res://scenes/health.tscn" id="3_2yeco"]
 [ext_resource type="PackedScene" uid="uid://ccicwe4w326b0" path="res://scenes/hunger.tscn" id="4_cp6sn"]
+[ext_resource type="PackedScene" uid="uid://dh13w8wgje4vy" path="res://scenes/clock.tscn" id="4_j0mjp"]
 [ext_resource type="Script" path="res://assets/scripts/house_scene/save_game.gd" id="8_mlvkw"]
 
 [node name="HouseScene" type="Node2D"]
@@ -25,6 +26,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 100.0
 offset_bottom = 100.0
+
+[node name="Node2D" parent="UI" instance=ExtResource("4_j0mjp")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 layout_mode = 1
