@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckabig2cy5qbd"]
+[gd_scene load_steps=5 format=3 uid="uid://ckabig2cy5qbd"]
 
 [ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_dog_button.gd" id="1_drp55"]
-[ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_a_dog.gd" id="1_duw5w"]
 [ext_resource type="Script" path="res://assets/scripts/Utilities/load_button.gd" id="2_1paoq"]
-[ext_resource type="Script" path="res://assets/scripts/create-a-dog/saver.gd" id="2_m5gcx"]
+[ext_resource type="Script" path="res://assets/scripts/create-a-dog/create_a_dog.gd" id="2_m5gcx"]
 [ext_resource type="Texture2D" uid="uid://c4av7drqh68x8" path="res://assets/sprites/samson-sprite.png" id="2_xfnm2"]
 
 [node name="Create-a-Dog" type="Node2D"]
-script = ExtResource("1_duw5w")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
