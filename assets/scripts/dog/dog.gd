@@ -1,7 +1,6 @@
+class_name Dog
 extends CharacterBody2D
 
-signal on_health_changed
-signal on_hunger_changed
 signal on_death
 
 @onready var _animated_sprite = $AnimatedSprite2D #get the AnimateSprite2D on the dog
@@ -32,7 +31,7 @@ var dog_stats = {
 	"hunger_stats": {
 		"MaxHunger": 100,
 		"CurrentHunger": 0,
-		"HungerIncreaseTime": 0.3,
+		"HungerIncreaseTime": 2,
 		"HungerIncreaseAmount": 2,
 		"HealthDamage": 3
 	},
@@ -42,7 +41,7 @@ var destination: Vector2
 var is_moving: bool = false
 
 func _ready():
-	setup_dog()
+	#setup_dog()
 	hungry()
 
 func _process(delta):
@@ -161,5 +160,12 @@ func get_current_health() -> int:
 	return dog_stats["health_stats"]["CurrentHealth"]
 
 func restore_hunger(amount: int) -> void:
-	dog_stats["hunger_stats"]["CurrentHunger"] -= amount
-	on_hunger_changed.emit()
+	var current_hunger = dog_stats["hunger_stats"]["CurrentHunger"]
+	current_hunger -= amount
+	#ensure we dont below zero
+	if current_hunger < 0:
+		current_hunger = 0
+		
+	dog_stats["hunger_stats"]["CurrentHunger"] = current_hunger
+	#update ui
+	%Hunger.update_hunger_display(self)

@@ -1,3 +1,4 @@
+class_name Clock_Control
 extends Node
 
 @onready var hour_label = %Hour
@@ -98,3 +99,8 @@ func tick_minutes():
 		current_minute = 0
 		current_hour += 1
 	
+func get_current_hour() -> int: 
+	return current_hour
+
+func get_current_minute() -> int:
+	return current_minute
