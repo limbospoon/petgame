@@ -7,7 +7,7 @@ extends Node
 
 var current_hour: int = 0
 var current_minute: int = 0
-var clock_speed: float = 0.000000000003
+var clock_speed: float = 0.6
 
 
 enum EClock_Type {

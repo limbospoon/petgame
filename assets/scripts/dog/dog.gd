@@ -4,6 +4,8 @@ extends CharacterBody2D
 signal on_death
 
 @onready var _animated_sprite = $AnimatedSprite2D #get the AnimateSprite2D on the dog
+@onready var health_label = %HealthLabel
+@onready var hunger_label = %HungerLabel
 
 var speed := 3:
 	set(value):
@@ -41,24 +43,20 @@ var destination: Vector2
 var is_moving: bool = false
 
 func _ready():
-	#setup_dog()
 	hungry()
 
 func _process(delta):
 	pass
 
-func setup_dog():
-	var dog_data:DogData = %SaveLoad._load_dog_data()
+func setup_dog(dog_data):
+	dog_stats = dog_data.dog_stats
 	
-	#Setup Health
-	dog_stats["health_stats"]["MaxHealth"] = dog_data.dog_max_health
-	dog_stats["health_stats"]["CurrentHealth"] = dog_data.dog_max_health
-	%HealthLabel.update_health_display(self)
+	#load saved postion
+	position = dog_data.dog_position
 	
-	#setup hunger
-	dog_stats["hunger_stats"]["MaxHunger"] = dog_data.dog_max_hunger
-	dog_stats["hunger_stats"]["CurrentHunger"] = 0
-	%Hunger.update_hunger_display(self)
+	#update ui
+	health_label.update_health_display(self)
+	hunger_label.update_hunger_display(self)
 	
 func set_destination(pos: Vector2):
 	destination = pos
@@ -122,12 +120,12 @@ func hungry():
 	if _current_hunger < _max_hunger:
 		_current_hunger += _hunger_increase #increase hunger
 		dog_stats["hunger_stats"]["CurrentHunger"] = _current_hunger #update current hunger in dict
-		%Hunger.update_hunger_display(self) #broadcast hunger change
+		hunger_label.update_hunger_display(self) #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again
 		hungry()
 	elif _current_hunger >= _max_hunger:
 		dog_stats["hunger_stats"]["CurrentHunger"] = _max_hunger #et CurrentHunger to MaxHunger
-		%Hunger.update_hunger_display(self) #update ui
+		hunger_label.update_hunger_display(self) #update ui
 		dog_hunger_state = EDog_Hunger_State.STARVING #set state to starving TODO: make use of the state
 		starving()
 
@@ -140,7 +138,7 @@ func starving():
 	#deal health damage as long as hunger is Max
 	if get_current_hunger() >= max_hunger:
 		dog_stats["health_stats"]["CurrentHealth"] -= health_damage #decrease health
-		%HealthLabel.update_health_display(self)
+		health_label.update_health_display(self)
 		
 		if dog_stats["health_stats"]["CurrentHealth"] <= 0:
 			dog_state = EDog_State.DEAD
@@ -169,3 +167,9 @@ func restore_hunger(amount: int) -> void:
 	dog_stats["hunger_stats"]["CurrentHunger"] = current_hunger
 	#update ui
 	%Hunger.update_hunger_display(self)
+
+func get_health_label():
+	return health_label
+
+func get_hunger_label():
+	return hunger_label

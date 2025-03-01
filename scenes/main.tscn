@@ -45,8 +45,8 @@ offset_bottom = -20.0
 text = "Create new dog"
 
 [connection signal="_on_scene_loaded" from="SceneManager" to="Control/GameOverMenu" method="_on_scene_manager__on_scene_loaded"]
-[connection signal="button_up" from="Control/LoadCreate-a-Dog" to="SceneManager" method="_on_load_house_scene_button_up"]
 [connection signal="button_up" from="Control/LoadCreate-a-Dog" to="SceneManager" method="_on_load_createa_dog_button_up"]
+[connection signal="button_up" from="Control/LoadCreate-a-Dog" to="SceneManager" method="_on_load_house_scene_button_up"]
 [connection signal="child_exiting_tree" from="Control/LoadCreate-a-Dog" to="SceneManager" method="_on_load_scene_child_exiting_tree"]
 
 [editable path="Control/GameOverMenu"]

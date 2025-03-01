@@ -43,7 +43,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Hunger" parent="UI/VBoxContainer" instance=ExtResource("4_cp6sn")]
+[node name="HungerLabel" parent="UI/VBoxContainer" instance=ExtResource("4_cp6sn")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3

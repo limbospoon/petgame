@@ -2,6 +2,8 @@ extends Node2D
 
 signal on_game_state_changed
 
+@onready var dog: Dog = %Dog
+
 enum EGame_State {
 	NORMAL,
 	GAMEOVER
@@ -15,7 +17,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
 
 func _on_dog_on_death():
 	game_state = EGame_State.GAMEOVER
