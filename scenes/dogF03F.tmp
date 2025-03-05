@@ -92,7 +92,6 @@ animations = [{
 size = Vector2(50, 39)
 
 [node name="Dog" type="CharacterBody2D"]
-position = Vector2(558, 252)
 script = ExtResource("1_4y54w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -109,7 +108,6 @@ position = Vector2(0, -20.5)
 shape = SubResource("RectangleShape2D_a6oq2")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-unique_name_in_owner = true
 script = ExtResource("3_cr02h")
 initial_state = NodePath("Idle")
 

@@ -2,28 +2,17 @@ class_name Dog
 extends CharacterBody2D
 
 signal on_death
+signal on_hunger_change
+signal on_health_change
 
 @onready var _animated_sprite = $AnimatedSprite2D #get the AnimateSprite2D on the dog
-@onready var health_label = %HealthLabel
-@onready var hunger_label = %HungerLabel
+@onready var state_machine: StateMachine = %StateMachine
 
 var speed := 3:
 	set(value):
 		speed = clamp(value,1,6)
 	get:
 		return speed
-
-enum EDog_Hunger_State {
-	NORMAl,
-	STARVING
-}
-var dog_hunger_state: EDog_Hunger_State
-
-enum EDog_State {
-	ALIVE,
-	DEAD
-}
-var dog_state: EDog_State = EDog_State.ALIVE
 
 var dog_stats = {
 	"health_stats": {
@@ -43,7 +32,8 @@ var destination: Vector2
 var is_moving: bool = false
 
 func _ready():
-	hungry()
+	#hungry()
+	pass
 
 func _process(delta):
 	pass
@@ -55,8 +45,8 @@ func setup_dog(dog_data):
 	position = dog_data.dog_position
 	
 	#update ui
-	health_label.update_health_display(self)
-	hunger_label.update_hunger_display(self)
+	on_health_change.emit()
+	on_hunger_change.emit()
 	
 func set_destination(pos: Vector2):
 	destination = pos
@@ -79,9 +69,6 @@ func move_to_position(threshold: float = 10) -> bool:
 		is_moving = true
 		position += direction * speed
 		
-		if dog_state == EDog_State.DEAD:
-			return false
-		
 		await get_tree().create_timer(get_process_delta_time()).timeout
 		move_to_position()
 	elif dist < threshold: #stop moving when we reached our goal
@@ -93,10 +80,6 @@ func move_to_position(threshold: float = 10) -> bool:
 
 #Called when mouse is released
 func _on_camera_2d_mouse_clicked():
-	
-	if dog_state == EDog_State.DEAD:
-		is_moving = false
-		return
 	
 	var mouse_pos = get_global_mouse_position()
 	destination = mouse_pos #Set destination to mouse pos
@@ -120,13 +103,12 @@ func hungry():
 	if _current_hunger < _max_hunger:
 		_current_hunger += _hunger_increase #increase hunger
 		dog_stats["hunger_stats"]["CurrentHunger"] = _current_hunger #update current hunger in dict
-		hunger_label.update_hunger_display(self) #broadcast hunger change
+		on_hunger_change.emit() #broadcast hunger change
 		await get_tree().create_timer(_increase_delay).timeout #delay increasing hunger again
 		hungry()
 	elif _current_hunger >= _max_hunger:
 		dog_stats["hunger_stats"]["CurrentHunger"] = _max_hunger #et CurrentHunger to MaxHunger
-		hunger_label.update_hunger_display(self) #update ui
-		dog_hunger_state = EDog_Hunger_State.STARVING #set state to starving TODO: make use of the state
+		on_hunger_change.emit()
 		starving()
 
 func starving():
@@ -138,17 +120,15 @@ func starving():
 	#deal health damage as long as hunger is Max
 	if get_current_hunger() >= max_hunger:
 		dog_stats["health_stats"]["CurrentHealth"] -= health_damage #decrease health
-		health_label.update_health_display(self)
+		on_health_change.emit()
 		
 		if dog_stats["health_stats"]["CurrentHealth"] <= 0:
-			dog_state = EDog_State.DEAD
 			on_death.emit()
 			return
 		
 		await get_tree().create_timer(damage_delay).timeout #delay for next damage tick
 		starving()
 	else:
-		dog_hunger_state = EDog_Hunger_State.NORMAl #Not starving so set state back
 		hungry()
 		
 func get_current_hunger() -> float:
@@ -167,9 +147,3 @@ func restore_hunger(amount: int) -> void:
 	dog_stats["hunger_stats"]["CurrentHunger"] = current_hunger
 	#update ui
 	%Hunger.update_hunger_display(self)
-
-func get_health_label():
-	return health_label
-
-func get_hunger_label():
-	return hunger_label

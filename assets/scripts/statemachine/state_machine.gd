@@ -11,6 +11,7 @@ func _ready() -> void:
 		state_node.onfinished.connect(_transition_to_next_state)
 		
 	await owner.ready
+	print(owner.name)
 	state._enter("")
 	
 func _transition_to_next_state(next_state: String, data: Dictionary) -> void:
